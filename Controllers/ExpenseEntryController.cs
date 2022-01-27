@@ -31,4 +31,41 @@ public class ExpenseEntryController : ControllerBase
     {
         return EntryList.FirstOrDefault(p => p.id == id);
     }
+
+    [HttpPost]
+    public IActionResult Post(ExpenseEntry expenseEntry)
+    {
+        if (expenseEntry == null)
+        {
+            return BadRequest();
+        }
+
+        EntryList.Add(expenseEntry);
+        return CreatedAtAction(nameof(Get), new { id = expenseEntry.id });
+    }
+
+    [HttpPut]
+    public IActionResult Put(ExpenseEntry expenseEntry)
+    {
+        var entry = EntryList.First(p => p.id == expenseEntry.id);
+        if (entry != null)
+        {
+            EntryList[entry.id].item = expenseEntry.item;
+            EntryList[entry.id].amount = expenseEntry.amount;
+            EntryList[entry.id].category = expenseEntry.category;
+            EntryList[entry.id].location = expenseEntry.location;
+            EntryList[entry.id].spendOn = expenseEntry.spendOn;
+            EntryList[entry.id].createdOn = expenseEntry.createdOn;
+            return Ok();
+        }
+        return BadRequest();
+    }
+
+    [HttpDelete]
+    public IActionResult Delete(int id)
+    {
+        var entry = EntryList.FirstOrDefault(p => p.id == id);
+        EntryList.Remove(entry);
+        return Ok("Resource deleted successfully");
+    }
 }
