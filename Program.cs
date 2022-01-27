@@ -25,6 +25,8 @@ app.UseCors(builder => builder
      .AllowAnyMethod()
      .AllowAnyHeader());
 
+     // check if this is working
+
 app.MapControllers();
 
 app.Run();
