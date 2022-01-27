@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ExpenseEntryAPI.Models;
+using System.Linq;
 namespace ExpenseEntryAPI.Controllers;
 
 [ApiController]
@@ -18,9 +19,16 @@ public class ExpenseEntryController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet(Name = "ExpenseEntry")]
+    [HttpGet(Name = "ExpenseEntries")]
     public IEnumerable<ExpenseEntry> Get()
     {
         return EntryList;
+    }
+
+    [HttpGet]
+    [Route("{id:int}", Name = "GetById")]
+    public ExpenseEntry Get(int id)
+    {
+        return EntryList.FirstOrDefault(p => p.id == id);
     }
 }
